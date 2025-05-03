@@ -2,7 +2,7 @@ import { rm, writeFile, rename } from "fs/promises";
 import { resolve, parse } from "path";
 import { createReadStream, createWriteStream } from "fs";
 import { pipeline } from "stream/promises";
-import { checkFile, checkDirectory } from "./utils.js";
+import { checkFile, checkDirectory, checkIsFileExist } from "./utils.js";
 
 export class Files {
   async cat(pathToFile) {
@@ -22,6 +22,7 @@ export class Files {
 
   async rn(pathToFile, newFileName) {
     const resolvedPath = await checkFile(pathToFile);
+    await checkIsFileExist(newFileName);
     await rename(resolvedPath, newFileName);
   }
 
