@@ -1,6 +1,10 @@
 import { stat } from "fs/promises";
 import { sep, resolve, parse } from "path";
-import { ERROR_NO_SUCH_DIRECTORY, ERROR_NO_SUCH_FILE } from "./constants.js";
+import {
+  ERROR_FILE_ALREADY_EXIST,
+  ERROR_NO_SUCH_DIRECTORY,
+  ERROR_NO_SUCH_FILE,
+} from "./constants.js";
 
 export const checkPath = async (path) => {
   try {
@@ -33,4 +37,9 @@ export const checkFile = async (path) => {
   } else {
     throw new Error(ERROR_NO_SUCH_FILE);
   }
+};
+
+export const checkIsFileExist = async (path) => {
+  const isPath = await checkPath(path.trim());
+  if (isPath) throw new Error(ERROR_FILE_ALREADY_EXIST);
 };

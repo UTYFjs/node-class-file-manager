@@ -1,8 +1,10 @@
+import { Compress } from "./Compress.js";
 import {
   ERROR_INVALID_INPUT,
   ERROR_NO_SUCH_DIRECTORY,
   ERROR_NO_SUCH_FILE,
   ERROR_OPERATION_FAILED,
+  ERROR_FILE_ALREADY_EXIST,
 } from "./constants.js";
 import { Files } from "./Files.js";
 import { Hash } from "./Hash.js";
@@ -16,6 +18,7 @@ export class Handler {
     this.files = new Files();
     this.os = new OS();
     this.hash = new Hash();
+    this.compress = new Compress();
   }
 
   async handleOperation(input) {
@@ -87,6 +90,21 @@ export class Handler {
           await this.hash.calcHash(pathToFile);
           break;
         }
+        case "compress":
+        case "decompress": {
+          this.#validateNumberOfArgs(args, 2);
+          const [pathToInputFile, pathToOutputFile] = args;
+          await this.compress.archive(
+            pathToInputFile,
+            pathToOutputFile,
+            operation === "decompress"
+          );
+          break;
+        }
+        case ".exit": {
+          process.exit();
+        }
+
         default: {
           throw new Error(ERROR_INVALID_INPUT);
         }
@@ -95,9 +113,10 @@ export class Handler {
       if (
         error?.message === ERROR_INVALID_INPUT ||
         error?.message === ERROR_NO_SUCH_DIRECTORY ||
-        error?.message === ERROR_NO_SUCH_FILE
+        error?.message === ERROR_NO_SUCH_FILE ||
+        error?.message === ERROR_FILE_ALREADY_EXIST
       ) {
-        throw new Error(error?.message);
+        throw new Error(error.message);
       }
 
       throw new Error(ERROR_OPERATION_FAILED);
