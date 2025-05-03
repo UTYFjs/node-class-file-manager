@@ -5,6 +5,7 @@ import {
   ERROR_OPERATION_FAILED,
 } from "./constants.js";
 import { Files } from "./Files.js";
+import { Hash } from "./Hash.js";
 
 import { Navigation } from "./Navigation.js";
 import { OS } from "./Os.js";
@@ -14,6 +15,7 @@ export class Handler {
     this.navigation = new Navigation();
     this.files = new Files();
     this.os = new OS();
+    this.hash = new Hash();
   }
 
   async handleOperation(input) {
@@ -77,6 +79,12 @@ export class Handler {
           this.#validateNumberOfArgs(args, 1);
           const [flag] = args;
           this.os.handleFlag(flag);
+          break;
+        }
+        case "hash": {
+          this.#validateNumberOfArgs(args, 1);
+          const [pathToFile] = args;
+          await this.hash.calcHash(pathToFile);
           break;
         }
         default: {
