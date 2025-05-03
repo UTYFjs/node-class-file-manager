@@ -1,0 +1,12 @@
+{
+  "name": "node-js-file-manager",
+  "version": "2.0.0",
+  "type": "module",
+  "description": "RSS nodeJS 2025Q2 File manager task",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Henadzi Suhakou",
+  "license": "ISC"
+}
