@@ -7,11 +7,13 @@ import {
 import { Files } from "./Files.js";
 
 import { Navigation } from "./Navigation.js";
+import { OS } from "./Os.js";
 
 export class Handler {
   constructor() {
     this.navigation = new Navigation();
     this.files = new Files();
+    this.os = new OS();
   }
 
   async handleOperation(input) {
@@ -69,6 +71,12 @@ export class Handler {
           this.#validateNumberOfArgs(args, 1);
           const [pathToFile] = args;
           await this.files.rm(pathToFile);
+          break;
+        }
+        case "os": {
+          this.#validateNumberOfArgs(args, 1);
+          const [flag] = args;
+          this.os.handleFlag(flag);
           break;
         }
         default: {
