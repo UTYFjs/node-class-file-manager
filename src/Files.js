@@ -1,4 +1,4 @@
-import { rm, writeFile, rename } from "fs/promises";
+import { rm, writeFile, rename, mkdir } from "fs/promises";
 import { resolve, parse } from "path";
 import { createReadStream, createWriteStream } from "fs";
 import { pipeline } from "stream/promises";
@@ -46,5 +46,19 @@ export class Files {
   async rm(pathToFile) {
     const resolvedPath = await checkFile(pathToFile);
     await rm(resolvedPath);
+  }
+
+  async mkdir(newDirName) {
+    try {
+      const dirPath = resolve(newDirName.trim());
+      await mkdir(dirPath);
+      console.log(`Created directory: ${newDirName}`);
+    } catch (err) {
+      if (err.code === "EEXIST") {
+        console.error("Operation failed: Directory already exists");
+      } else {
+        console.error("Operation failed:", err.message);
+      }
+    }
   }
 }

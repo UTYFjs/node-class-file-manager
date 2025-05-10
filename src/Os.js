@@ -1,5 +1,6 @@
-import { EOL, homedir, userInfo, cpus as getCpus, arch } from "os";
+import { EOL, homedir, userInfo, arch } from "os";
 import { ERROR_INVALID_INPUT } from "./constants.js";
+import { cpus as getCpus } from "node:os";
 
 export class OS {
   handleFlag(flag) {

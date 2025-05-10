@@ -6,7 +6,7 @@ import { Handler } from "./Handler.js";
 
 export default class FileManager {
   constructor(username) {
-    this.username = username;
+    this.username = username || "Anonumous";
     this.rl = createInterface(stdin);
     this.handler = new Handler();
   }

@@ -78,6 +78,12 @@ export class Handler {
           await this.files.rm(pathToFile);
           break;
         }
+        case "mkdir": {
+          this.#validateNumberOfArgs(args, 1);
+          const [pathToDir] = args;
+          await this.files.mkdir(pathToDir);
+          break;
+        }
         case "os": {
           this.#validateNumberOfArgs(args, 1);
           const [flag] = args;
